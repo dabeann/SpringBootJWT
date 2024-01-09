@@ -23,6 +23,10 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider implements InitializingBean {
 
+    /**
+     * TokenProvider.class: 토큰의 생성, 유효성 검증 등을 담당
+     */
+
     private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
     private static final String AUTHORITIES_KEY = "auth";
     private final String secret;

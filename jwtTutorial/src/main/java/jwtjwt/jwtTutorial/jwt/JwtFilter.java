@@ -17,6 +17,8 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilterBean {
 
     /**
+     * JwtFilter.class: customFilter for JWT
+     *
      * 1. GenericFilterBean 을 extends 해서 doFilter() 를 override 해준다.
      * 2. 앞서 구현한 TokenProvider 를 주입받는다.
      */
@@ -29,10 +31,15 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     /**
-     * 필터링 로직은 doFilter() 안에 구현 doFilter() 역할: 토큰의 인증정보 (Authentication)를 SecurityContext에 저장하는 역할 수행 1. ServletRequest
-     * 에서 토큰을 받아 온다. 2. 받아온 토큰을 tokenProvider.validateToken(jwt) 로 유효성 검증을 한다. 3. 토큰이 정상이라면
-     * tokenProvider.getAuthentication(jwt) 로 토큰에서 Authentication 객체를 받아온다. 4.
-     * SecurityContextHolder.getContext().setAuthentication(authentication) 코드와 같이 Security Context에 받아온 Authentication을
+     * 필터링 로직은 doFilter() 안에 구현 doFilter() 역할: 토큰의 인증정보 (Authentication)를 SecurityContext에 저장하는 역할 수행
+     *
+     * 1. ServletRequest 에서 토큰을 받아 온다.
+     *
+     * 2. 받아온 토큰을 tokenProvider.validateToken(jwt) 로 유효성 검증을 한다.
+     *
+     * 3. 토큰이 정상이라면 tokenProvider.getAuthentication(jwt) 로 토큰에서 Authentication 객체를 받아온다.
+     *
+     * 4.SecurityContextHolder.getContext().setAuthentication(authentication) 코드와 같이 Security Context에 받아온 Authentication을
      * 저장해준다.
      */
     @Override
