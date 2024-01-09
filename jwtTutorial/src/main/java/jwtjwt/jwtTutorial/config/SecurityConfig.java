@@ -32,7 +32,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    // 앞서 정의한 TokenProvider, JwtAuthenticationEntryPoint, JwtAccessDenidHandler 의존성 주입 받기
+    // 앞서 정의한 TokenProvider, JwtAuthenticationEntryPoint, JwtAccessDeniedHandler 의존성 주입 받기
     public SecurityConfig(
             TokenProvider tokenProvider,
             CorsFilter corsFilter,

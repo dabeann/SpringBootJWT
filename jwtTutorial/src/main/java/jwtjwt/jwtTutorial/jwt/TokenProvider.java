@@ -62,7 +62,6 @@ public class TokenProvider implements InitializingBean {
      */
     // Authentication 객체의 권한정보를 이용해 토큰을 생성하는 createToken
     public String createToken(Authentication authentication) {
-
         // authentication 초기화
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -81,6 +80,7 @@ public class TokenProvider implements InitializingBean {
                 .setExpiration(validity)
                 .compact();
     }
+
 
     /**
      * 1. 토큰을 파라미터로 받아 Claim 을 만들어줌
