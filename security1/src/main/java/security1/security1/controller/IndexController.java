@@ -1,11 +1,22 @@
 package security1.security1.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import security1.security1.model.User;
+import security1.security1.repository.UserRepository;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping({"", "/"})
     public String index() {
@@ -30,18 +41,27 @@ public class IndexController {
     }
 
     // Spring Security가 해당 주소를 낚아챔 - SecurityConfig 파일 생성 후 작동 안함
-    @GetMapping("/login")
-    public @ResponseBody String login() {
-        return "login";
+    @GetMapping("/loginForm")
+    public String login() {
+        return "loginForm";
     }
 
-    @GetMapping("/join")
-    public @ResponseBody String join() {
-        return "join";
+    @GetMapping("/joinForm")
+    public String joinForm() {
+        return "joinForm";
     }
 
-    @GetMapping("/joinProc")
-    public @ResponseBody String joinProc() {
-        return "회원가입 완료됨!";
+    @PostMapping("/joinProc")
+    public String joinProc(User user) {
+        System.out.println("회원가입 진행 : " + user);
+
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encPassword); // 인코딩된 pwd
+
+        user.setRole("ROLE_USER");
+
+        userRepository.save(user);
+        return "redirect:/loginForm";
     }
 }

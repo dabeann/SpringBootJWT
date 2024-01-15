@@ -35,18 +35,19 @@ public class SecurityConfig {
                                 //.requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                                 //.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN", "ROLE_USER") 왜오류나냐;
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/mangager/**").hasRole("MANAGER")
+                                .requestMatchers("/manager/**").hasRole("MANAGER")
+                                .requestMatchers("/manager/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                         )
                 // 폼 로그인 설정
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/loginForm")
                         .loginProcessingUrl("/loginProc")
                         .defaultSuccessUrl("/")
                 )
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
+                        .loginPage("/loginForm")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(principalOauth2UserService)
                         )

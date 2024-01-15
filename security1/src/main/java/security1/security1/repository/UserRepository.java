@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import security1.security1.model.User;
 
 /**
- *
- * @author cos
  * JPA는 기본 CRUD를 JpaRepository가 상속하는 CrudRepository가 가지고 있음.
  * JPA는 method names 전략을 가짐. README.md 사진 참고
  */
