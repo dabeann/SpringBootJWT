@@ -18,7 +18,9 @@ import security1.security1.model.User;
 // Authentication 안에 User 정보가 있어야 함
 // User 오브젝트 타입 -> UserDetails 타입 객체
 
-// Security Session -> Authentication -> UserDetails(PrincipalDetails)
+// Security Session -> Authentication -> UserDetails(PrincipalDetails) or OAuth2User(PrincipalDetails)
+// 일반유저 로그인 -> UserDetails
+// OAuth 로그인 -> OAuth2User
 public class PrincipalDetails implements UserDetails, OAuth2User{
 
     private static final long serialVersionUID = 1L;
