@@ -48,12 +48,19 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                 )
                 // OAuth2 로그인 설정
+                // 로그인이 완료된 뒤 후처리가 필요
+                // 1. 코드받기 (인증)
+                // 2. 엑세스토큰 (권한)
+                // 3. 사용자 프로필 정보 가져오기
+                // 4. 정보를 토대로 회원가입을 자동으로 진행시키기도 함 or 추가 정보 필요할수도
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/loginForm")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(principalOauth2UserService)
                         )
                 );
+                // 구글 로그인이 완료되면
+                // 코드X, (엑세스 토큰 + 사용자 프로필 정보)
 
         return http.build();
     }
