@@ -28,6 +28,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     // 구글로그인 버튼 클릭 -> 구글로그인 창 -> 로그인 완료 -> code를 리턴(OAuth-Client 라이브러리) -> AccessToken 요청
     // userRequest 정보 -> loadUser 함수 호출 -> 구글로부터 회원 프로필을 받아준다.
     // userRequest 는 code를 받아서 accessToken을 응답 받은 객체
+    // 함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회
@@ -72,7 +73,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else {
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
             user = User.builder()
-                    .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
+                    .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId()) // google_23129847382
                     .email(oAuth2UserInfo.getEmail())
                     .role("ROLE_USER")
                     .provider(oAuth2UserInfo.getProvider())

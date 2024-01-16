@@ -23,8 +23,10 @@ public class IndexController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/test/login")
-    public @ResponseBody String testLogin(@AuthenticationPrincipal PrincipalDetails principal) { // DI (의존성 주입)
+    // OAuth 로그인을 해도 PrincipalDetails
+    // 일반 로그인을 해도 PrincipalDetails
+    @GetMapping("/user")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principal) { // DI (의존성 주입)
         System.out.println("Principal : " + principal);
         System.out.println("OAuth2 : "+principal.getUser().getProvider());
 
@@ -41,11 +43,6 @@ public class IndexController {
         // 머스테치 기본폴터 src/main/resources/
         // 뷰리졸버 설정: templates (prefix), .mustache (suffix) 생략가능
         return "index"; // src/main/resources/templates/index.mustache
-    }
-
-    @GetMapping("/user")
-    public @ResponseBody String user() {
-        return "user";
     }
 
     @GetMapping("/admin")
