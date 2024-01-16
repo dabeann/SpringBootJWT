@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
                 // 권한 설정
                 .authorizeHttpRequests(authz-> authz
-                                .requestMatchers("/user/**").authenticated()
+                                .requestMatchers("/user/**").authenticated() // 인증만 되면 들어갈 수 있는 주소
                                 //.requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                                 //.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN", "ROLE_USER") 왜오류나냐;
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -42,7 +42,7 @@ public class SecurityConfig {
                 // 폼 로그인 설정
                 .formLogin(form -> form
                         .loginPage("/loginForm")
-                        .loginProcessingUrl("/loginProc")
+                        .loginProcessingUrl("/loginProc") // loginProc 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행
                         .defaultSuccessUrl("/")
                 )
                 // OAuth2 로그인 설정
