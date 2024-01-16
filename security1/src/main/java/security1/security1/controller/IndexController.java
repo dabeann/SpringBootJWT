@@ -1,6 +1,8 @@
 package security1.security1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,5 +65,22 @@ public class IndexController {
 
         userRepository.save(user);
         return "redirect:/loginForm";
+    }
+
+    // ROLE_ADMIN일 때만 접근 가능
+    // @Secured: 권한 인증만 할 때 편하게 사용
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/info")
+    public @ResponseBody String info() {
+        return "개인정보";
+    }
+
+    // @PreAuthorize: 메서드가 실행되기 전에 인증을 거친다.
+    // @PostAuthorize: 메서드가 실행되고 나서 응답을 보내기 전에 인증을 거친다.
+    // 위 두 어노테이션: 복잡한 인증과정이 필요할 때 사용
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "데이터정보";
     }
 }

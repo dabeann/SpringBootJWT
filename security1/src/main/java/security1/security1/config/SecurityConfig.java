@@ -2,8 +2,10 @@ package security1.security1.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,6 +14,9 @@ import security1.security1.config.oauth.PrincipalOauth2UserService;
 
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity // deprecated 됨. EnableMethodSecurity 를 대신 사용하라고 한다.
+// securedEnabled => Secured 애노테이션 사용 여부, prePostEnabled => Pre&Post Authorize 어노테이션 사용 여부.
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -26,17 +31,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 // csrf 설정 비활성화
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 // 헤더 설정에서 frameOptions 비활성화
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
                 // 권한 설정
                 .authorizeHttpRequests(authz-> authz
                                 .requestMatchers("/user/**").authenticated() // 인증만 되면 들어갈 수 있는 주소
-                                //.requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                                //.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN", "ROLE_USER") 왜오류나냐;
+                                .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/manager/**").hasRole("MANAGER")
-                                .requestMatchers("/manager/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                         )
                 // 폼 로그인 설정
