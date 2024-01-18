@@ -64,7 +64,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         } else {
 
-            System.out.println("우리는 구글과 페이스북만 지원해요 ㅎㅎ");
+            System.out.println("우리는 구글과 페이스북과 네이버만 지원해요 ㅎㅎ");
 
         }
 
