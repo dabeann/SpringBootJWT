@@ -46,17 +46,26 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         // Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
         OAuth2UserInfo oAuth2UserInfo = null;
+
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+
             System.out.println("구글 로그인 요청~~");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
+
             System.out.println("페이스북 로그인 요청~~");
             oAuth2UserInfo = new FaceBookUserInfo(oAuth2User.getAttributes());
+
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+
             System.out.println("네이버 로그인 요청~~");
             oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
+
         } else {
+
             System.out.println("우리는 구글과 페이스북만 지원해요 ㅎㅎ");
+
         }
 
         //System.out.println("oAuth2UserInfo.getProvider() : " + oAuth2UserInfo.getProvider());
@@ -66,11 +75,15 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         User user;
         if (userOptional.isPresent()) {
+
             user = userOptional.get();
             // user가 존재하면 update 해주기
+
             user.setEmail(oAuth2UserInfo.getEmail());
             userRepository.save(user);
+
         } else {
+
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
             user = User.builder()
                     .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId()) // google_23129847382
@@ -79,6 +92,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .provider(oAuth2UserInfo.getProvider())
                     .providerId(oAuth2UserInfo.getProviderId())
                     .build();
+
             userRepository.save(user);
         }
 
