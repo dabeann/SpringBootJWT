@@ -18,3 +18,13 @@
 > role = "ROLE_USER",  
 > provider = "google",  
 > providerId = "23129847382"
+
+### naver login
+> **받아오는 정보**
+> ```
+> response =  
+> {  resultcode = 00,  
+>    message = success,  
+>    response = {id = 215465456, email = dabin6469@naver.com, name = 최다빈}
+> }
+> ```
