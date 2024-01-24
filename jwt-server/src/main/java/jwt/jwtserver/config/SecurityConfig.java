@@ -1,5 +1,6 @@
 package jwt.jwtserver.config;
 
+import jwt.jwtserver.filter.MyFilter3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -22,6 +25,8 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // 스프링 시큐리티 필터 동작 이전에 동작!
+                .addFilterBefore(new MyFilter3(), SecurityContextPersistenceFilter.class)
                 // csrf 설정 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 // jwt Bearer 인증 방식을 쓸 거라서!
