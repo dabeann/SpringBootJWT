@@ -24,8 +24,11 @@ public class SecurityConfig{
         http
                 // csrf 설정 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
+                // jwt Bearer 인증 방식을 쓸 거라서!
+                // STATELESS방식: session을 사용하지 않겠다!
                 .sessionManagement(
                         (sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // form 태그 만들어서 로그인 하는 거 안하겠다!
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilter(corsFilter) // @CrossOrigin (인증X), 시큐리티 필터에 등록 인증 (O)
