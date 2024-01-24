@@ -1,5 +1,6 @@
 package jwt.jwtserver.config;
 
+import jwt.jwtserver.filter.MyFilter1;
 import jwt.jwtserver.filter.MyFilter3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
