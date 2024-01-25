@@ -70,9 +70,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         System.out.println("Authentication : "+principalDetails.getUser().getUsername());
+
+        // 리턴의 이유는 권한 관리를 security가 대신 해주기 때문에 편하려고
+        // 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 단지 권한 처리 때문에 세션에 넣음
         return authentication;
     }
 
+    // attemptAuthentication 실행 후 인증이 정상적으로 되었으면 successfulAuthentication 함수가 실행됨
     // JWT Token 생성해서 response에 담아주기
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
